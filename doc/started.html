@@ -1,0 +1,80 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<title>of_mobilenode</title>
+	<h1>of_mobilenode</h1>
+	<h3>Fl&aacute;vio Meneses, Daniel Corujo, Carlos Guimar&atilde;es, Rui Aguiar</h3>
+	<hr>
+	<div><p class="copyright">Copyright &#169; 2015 Universidade Aveiro</p></div>
+<div><p class="copyright">Copyright &#169; 2015 Instituto de Telecomunica&#231;&#245;es - P&#243;lo Aveiro</p></div>
+<div><div class="legalnotice">
+        <p>This software is distributed under a license. The full license agreement
+        can be found in the LICENSE in this distribution. This software may not be
+        copied, modified, sold or distributed other than expressed in the named license
+        agreement. This software is distributed without any warranty.</p>
+</div></div>
+<hr>
+</head>
+<body>
+<h1>Getting Started</h1>
+<h3>1. Installation</h3>
+In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
+
+<h3>2. Required Software</h3>
+With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.
+
+<h4>2.1 Open vSwitch</h4>
+Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
+To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
+
+<p><b>2.1.1. OvS configuration</b></p>
+
+<p><b>b) Mobile Node</b></p>
+<div class="toc">
+<br>
+# add bridge to ethernet interfaces<br>
+ovs-vsctl add-br br0<br>
+ovs-vsctl add-br br1<br>
+<br>
+# attach interfaces to bridges<br>
+ovs-vsctl add-port br0 ath0<br>
+ovs-vsctl add-port br1 ath1<br>
+<br>
+# create a patch port for each bridge<br>
+ovs-vsctl add-port br0 patch01 -- set interface patch01 type=patch options:peer=patch10<br>
+ovs-vsctl add-port br1 patch10 -- set interface patch10 type=patch options:peer=patch01<br>
+<br>
+# connect OVS to a controller - "out-of-band"<br>
+ovs-vsctl set-controller br0 tcp:10.10.15.201:6633<br>
+ovs-vsctl set-controller br1 tcp:10.10.10.201:6633<br>
+ovs-vsctl set controller br0 connection-mode=out-of-band<br>
+ovs-vsctl set controller br1 connection-mode=out-of-band<br>
+ovs-vsctl set bridge br0 other-config:disable-in-band=true<br>
+ovs-vsctl set bridge br1 other-config:disable-in-band=true<br>
+<br>
+# set attached interfaces in promiscous mode<br>
+ifconfig ath0 0 up<br>
+ifconfig ath1 0 up<br>
+<br>
+# start ovs bridges<br>
+ifconfig br0 192.168.11.1 netmask 255.255.255.0 up<br>
+ifconfig br1 192.168.12.1 netmask 255.255.255.0 up<br>
+<br>
+</div>
+
+
+
+<h4>2.2 POX</h4>
+
+<p><b>How to run POX</b></p>
+
+
+<h3>3. Running a demo</h3>
+
+</body>
+<footer>
+<hr>
+	foot
+</footer>
+</html>

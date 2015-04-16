@@ -135,4 +135,3 @@ def flow_mn_2 ():
 def launch():
     core.registerNew(MyConnection)
     core.registerNew(MyFlow)
-    #core.Interactive.variables['add_flow_mn'] = flow_mn
