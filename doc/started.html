@@ -19,17 +19,41 @@
 <body>
 <h1>Getting Started</h1>
 <h3>1. Installation</h3>
-In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
+<p>In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.</p>
 
 <h3>2. Required Software</h3>
-With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.
+<p>With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.</p>
 
 <h4>2.1 Open vSwitch</h4>
-Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
-To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
+<p>Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
+To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.</p>
 
 <p><b>2.1.1. OvS configuration</b></p>
 <p><b>a) Router, APs and Listener</b></p>
+<p>This example was used to configure the Router node. The remain nodes configuration is similar, keeping in mind that is necessary to change to the respectives network interfaces and IP addresses. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
+<p>The follow command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.</p>
+<p>echo 1 > /proc/sys/net/ipv4/ip_forward</p>
+
+
+<div class="toc">
+<br>
+# add bridge to ethernet interfaces<br>
+ovs-vsctl add-br router<br>
+<br>
+# attach interfaces to bridges<br>
+ovs-vsctl add-port router control.4<br>
+<br>
+# connect OVS to a controller - "in-band"<br>
+ovs-vsctl set-controller router tcp:10.10.10.201:6633<br>
+<br>
+# set attached interfaces in promiscous mode<br>
+ifconfig control.4 0 up<br>
+<br>
+# start ovs bridges<br>
+ifconfig router 192.168.10.254 netmask 255.255.255.0 up<br>
+<br>
+</div>
+
 
 <p><b>b) Mobile Node</b></p>
 <div class="toc">
@@ -64,13 +88,24 @@ ifconfig br1 192.168.12.1 netmask 255.255.255.0 up<br>
 <br>
 </div>
 
+<h4>2.2. POX</h4>
+<p>As OpenFlow controller we choose POX. But if you are more familiar with another controller it can be also done. However you need to create a script capable to handle the handover trigger form the user device, and change some code in order to avoid the controller ereasing the OvS flow rules when a new connection is establish.</p>  
+<p>If you decide to use POX, you can download it form our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> with the necessary changes already done, or download it from the <a href="https://github.com/noxrepo/pox" target="_blank">oficial</a> developer and do yourself the changes.</p>
 
+<p><b>a) How to run POX</b></p>
+<p>POX officially requires Python 2.7 (though much of it will work fine fine with Python 2.6), and should run under Linux, Mac OS, and Windows.</p>
 
-<h4>2.2 POX</h4>
-
-<p><b>How to run POX</b></p>
-
-
+<div class="toc">
+<br>The script ext/handover_mn.py handles the Mobile Node handover request. Run it along with l3_learning<br>
+<br>
+* You can run with the "py" component and use the CLI:<br>
+  ./pox.py forwarding.l3_learning handover_mn py<br>
+<br>
+The script ext/handover_mn_rules.py handles the Mobile Node handover request while implementes a certain number of dummy rules. As in the script before, run it along with l3_learning<br>
+<br>* You can run with the "py" component and use the CLI:
+<br>./pox.py forwarding.l3_learning handover_mn_rules py
+<br><br>
+</div>
 <h3>3. Running a demo</h3>
 
 </body>
