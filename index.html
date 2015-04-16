@@ -18,34 +18,59 @@
       <header>
         <h1 class="header">OF Mobile Node</h1>
         <p class="header"></p>
-
+		<dl>
+        	<h5>Table of Contents</h5>
+        	<dd><a href="#into">Introdution</a></dd>
+        	<dd><a href="#started">Getting Started</a></dd>
+        	<dd><a href="#authors">Authors & Copyright</a></dd>
+        </dl>
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/zipball/master">Download ZIP</a></li>
           <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/tarball/master">Download TAR</a></li>
           <li><a class="buttons github" href="https://github.com/ATNoG/of_mobilenode">View On GitHub</a></li>
         </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/ATNoG">ATNoG</a></p>
-        <p class="header">Authors: <br>Fl&aacute;vio Meneses<br>Daniel Corujo<br>Carlos Guimar&atilde;es<br>Rui Aguiar</p>
-		<p class="header">Copyright &#169; 2015 Universidade Aveiro
-		<br>Copyright &#169; 2015 Instituto de Telecomunica&#231;&#245;es - P&#243;lo Aveiro</p>
-
       </header>
       <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
-<h3>1. Installation</h3>
+        
+
+<h2><a id="into" class="anchor" href="#into" aria-hidden="true"><span class="octicon octicon-link"></span>Introdution</h2></a>
+<h5>What is this?</h5>
+<p>This project mains to implement a flow mobility on the end nodes through OpenFlow tools. To accomplish that were used the OpenFlow agents Open vSwitch (OvS) to perform the flow mobility and POX as a OpenFlow controller.</p>
+<h5>What does it do?</h5>
+<p>This project provides the configuration of an OvS and POX that allows to perform a OpenFlow control path up to a terminal mobile user, and acomplish a handover request through OpenFlow control messages.</p>
+<h5>What differences can be found regarding other flow mobility implementations?</h5>
+<p>This project mais a SDN extension to end nodes towards heterogeneous wireless mobility, implying a new hop (terminal user) of the previous flow mobility imnplementations.</p>
+<h5>What does this mean?</h5>
+<p>This kind of implementaion aims to provide to the OpenFlow controller the capability to redirect the flows of an attached mobile node, when a handover request is triggered.</p>
+<h5>How can I contribute?</h5>
+<p>Contact us <a href="#authors">here</a></p>
+
+<h2><a id="started" class="anchor" href="#started" aria-hidden="true"><span class="octicon octicon-link"></span>Getting Started</a></h2>
+	<table>
+		<tr>
+			<td><a href="#installation">1. Introdution</a></td>
+			<td><dl><a href="#software">2. Requerid Software</a>
+			<dd><a href="#ovs">2.1. Open vSwicth</a></dd>
+			<dd><a href="#pox">2.2. POX</a></dd>
+			</dl></td>
+			<td><a href="#demo">3. Running a demo</a></td>
+		</tr>
+	</table>
+	
+    </dl>
+
+<h3><a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span>1. Installation</a></h3>
 In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
 
-<h3>2. Required Software</h3>
+<h3><a id="software" class="anchor" href="#software" aria-hidden="true"><span class="octicon octicon-link"></span>2. Required Software</a></h3>
 With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.
 
-<h4>2.1 Open vSwitch</h4>
+<h4><a id="ovs" class="anchor" href="#ovs" aria-hidden="true"><span class="octicon octicon-link"></span>2.1. Open vSwitch</a></h4>
 Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
 To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
 
-<p><b>2.1.1. OvS configuration</b></p>
-<p><b>a) Router, APs and Listener</b></p>
+<h5>2.1.1. OvS configuration</h5>
+<h6>a) Router, APs and Listener</h6>
 <p>This example was used to configure the Router node. The remain nodes configuration is similar, keeping in mind that is necessary to change to the respectives network interfaces and IP addresses. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
 <p>The follow command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.</p>
 <p>echo 1 > /proc/sys/net/ipv4/ip_forward</p>
@@ -67,7 +92,7 @@ ifconfig control.4 0 up
 ifconfig router 192.168.10.254 netmask 255.255.255.0 up
 </pre></code>
 
-<p><b>b) Mobile Node</b></p>
+<h6>b) Mobile Node</h6>
 <pre><code># add bridge to ethernet interfaces
 ovs-vsctl add-br br0
 ovs-vsctl add-br br1
@@ -96,11 +121,11 @@ ifconfig ath1 0 up
 ifconfig br0 192.168.11.1 netmask 255.255.255.0 up
 ifconfig br1 192.168.12.1 netmask 255.255.255.0 up
 </code></pre>
-<h4>2.2. POX</h4>
+<h4><a id="pox" class="anchor" href="#pox" aria-hidden="true"><span class="octicon octicon-link"></span>2.2. POX</a></h4>
 <p>As OpenFlow controller we choose POX. But if you are more familiar with another controller it can be also done. However you need to create a script capable to handle the handover trigger form the user device, and change some code in order to avoid the controller ereasing the OvS flow rules when a new connection is establish.</p>  
 <p>If you decide to use POX, you can download it form our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> with the necessary changes already done, or download it from the <a href="https://github.com/noxrepo/pox" target="_blank">oficial</a> developer and do yourself the changes.</p>
 
-<p><b>a) How to run POX</b></p>
+<h6>a) How to run POX</h6>
 <p>POX officially requires Python 2.7 (though much of it will work fine fine with Python 2.6), and should run under Linux, Mac OS, and Windows.</p>
 
 <code><pre>
@@ -118,15 +143,19 @@ run it along with l3_learning
 </code></pre>
 
 
-<h3>3. Running a demo</h3>
+<h3><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h3>
 TESTE
 
-<h3><a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<h2><a id="authors" class="anchor" href="#authors" aria-hidden="true"><span class="octicon octicon-link"></span>Authors and Contributors</a></h2>
+	
+	<p>This project was develop by
+	<center><code>Fl&aacute;vio Meneses, Daniel Corujo, Carlos Guimar&atilde;es, Rui Aguiar</code></center>
+	and it is maintained by <a href="https://github.com/ATNoG" target="_blank">ATNoG</a></p>
+	<p>Copyright &#169; 2015 Universidade Aveiro
+	<br>Copyright &#169; 2015 Instituto de Telecomunica&#231;&#245;es - P&#243;lo Aveiro</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<h3><a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span>Support or Contact</a></h3>
 
 <p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
       </section>
