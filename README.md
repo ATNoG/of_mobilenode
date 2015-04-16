@@ -34,7 +34,5 @@ The script ext/handover_mn_rules.py handles the Mobile Node handover request whi
 
   ./pox.py forwarding.l3_learning handover_mn_rules py
 
-
-# Experience example
-
-[documentatin](http://atnog.github.io/of_mobilenode/index.html)
+## Get more information
+Check the more information about how to configure and reproduce the experience on the [documentatin](http://atnog.github.io/of_mobilenode/index.html).
