@@ -36,5 +36,4 @@ The script ext/handover_mn_rules.py handles the Mobile Node handover request whi
 
 
 # Experience example
-
-[documentatin](http://atnog.github.io/of_mobilenode/doc/intro.html)
+Check the more information about how to configure and reproduce the experience on the [documentation](http://atnog.github.io/of_mobilenode/index.html).
