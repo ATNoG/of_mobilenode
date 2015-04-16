@@ -37,7 +37,7 @@ body {
 
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5 {
   color:#232323;
   margin:36px 0 10px;
 }
@@ -70,14 +70,20 @@ h3 {
 	font-size: 18px;
 }
 
-h4, h5, h6 {
+h4, h5{
 	font-family: Arvo, Monaco, serif;
 	font-weight: 700;
+}
+h6 {
+  color:#232323;
+  font-family: Arvo, Monaco, serif;
+  font-weight: 700;
+  padding-left: 20px; 
 }
 
 a {
   color:#C30000;
-  font-weight:200;
+  /*font-weight:200;*/
   text-decoration:none;
 }
 
@@ -132,6 +138,11 @@ dl p {
   padding-left: 20px;
   font-style: italic;
 }
+dl h5 {
+  font-size: 18px;
+  border-bottom: 1px solid #C30000;
+  color: #ccc;
+} 
 
 hr {
   border:0;
@@ -180,14 +191,17 @@ pre {
 
 
 /* Tables */
-
-table {
-  width:100%;
+div .center{
+text-align: center;
 }
 
 table {
-  border: 1px solid #ccc;
-  margin-bottom: 32px;
+  width:80%;
+}
+
+table {
+  /*border: 1px solid #ccc;
+  margin-bottom: 32px;*/
   text-align: left;
  }
 
@@ -202,7 +216,7 @@ th {
 
 td {
   padding: 10px;
-	background: #ccc;
+	/*background: #ccc;*/
  }
 
 
