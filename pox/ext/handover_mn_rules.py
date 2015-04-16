@@ -7,7 +7,7 @@ Save as ext/handover.py and run along with l3_learning.
 Alternatively, if you run with the "py" component, you can use the CLI:
 ./pox.py forwarding.l3_learning handover py
  ...
-POX> add_flow_mn() OR add_flow_router()
+POX>
 """
 from pox.core import core
 import pox.openflow.libopenflow_01 as of
