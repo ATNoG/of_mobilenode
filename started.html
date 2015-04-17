@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>OF Mobile Node</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">OF Mobile Node</h1>
+        <p class="header"></p>
+		    <dl>
+        	<h5>Table of Contents</h5>
+        	<dd><a href="index.html">Introdution</a></dd>
+        	<dd><a href="#started">Getting Started</a></dd>
+                <dt><a href="#installation">1. Installation</a></dt>
+                <dt><a href="#software">2. Requerid Software</a></dt>
+                <p><a href="#ovs">2.1. Open vSwicth</a></p>
+                <p><a href="#pox">2.2. POX</a></p>
+                <dt><a href="#demo">3. Running a demo</a></dt>
+          <dd><a href="framework.html">System Framework</a></dd>
+        	<dd><a href="index.html#authors">Authors & Copyright</a></dd>
+        </dl>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ATNoG/of_mobilenode">View On GitHub</a></li>
+        </ul>
+      </header>
+      <section>
+
+<h2><a id="started" class="anchor" href="#started" aria-hidden="true"><span class="octicon octicon-link"></span>Getting Started</a></h2>
+	
+
+<h3><a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span>1. Installation</a></h3>
+In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
+
+<h3><a id="software" class="anchor" href="#software" aria-hidden="true"><span class="octicon octicon-link"></span>2. Required Software</a></h3>
+With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.
+
+<h4><a id="ovs" class="anchor" href="#ovs" aria-hidden="true"><span class="octicon octicon-link"></span>2.1. Open vSwitch</a></h4>
+Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
+To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
+
+<h5>2.1.1. OvS configuration</h5>
+<h6>a) Router, APs and Listener</h6>
+<p>This example was used to configure the Router node. The remain nodes configuration is similar, keeping in mind that is necessary to change to the respectives network interfaces and IP addresses. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
+<p>The follow command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.</p>
+<p>echo 1 > /proc/sys/net/ipv4/ip_forward</p>
+
+
+<pre><code># add bridge to ethernet interfaces
+ovs-vsctl add-br router
+
+# attach interfaces to bridges
+ovs-vsctl add-port router control.4
+
+# connect OVS to a controller - "in-band"
+ovs-vsctl set-controller router tcp:10.10.10.201:6633
+
+# set attached interfaces in promiscous mode
+ifconfig control.4 0 up
+
+# start ovs bridges
+ifconfig router 192.168.10.254 netmask 255.255.255.0 up
+</pre></code>
+
+<h6>b) Mobile Node</h6>
+<pre><code># add bridge to ethernet interfaces
+ovs-vsctl add-br br0
+ovs-vsctl add-br br1
+
+# attach interfaces to bridges
+ovs-vsctl add-port br0 ath0
+ovs-vsctl add-port br1 ath1
+
+# create a patch port for each bridge
+ovs-vsctl add-port br0 patch01 -- set interface patch01 type=patch options:peer=patch10
+ovs-vsctl add-port br1 patch10 -- set interface patch10 type=patch options:peer=patch01
+
+# connect OVS to a controller - "out-of-band"
+ovs-vsctl set-controller br0 tcp:10.10.15.201:6633
+ovs-vsctl set-controller br1 tcp:10.10.10.201:6633
+ovs-vsctl set controller br0 connection-mode=out-of-band
+ovs-vsctl set controller br1 connection-mode=out-of-band
+ovs-vsctl set bridge br0 other-config:disable-in-band=true
+ovs-vsctl set bridge br1 other-config:disable-in-band=true
+
+# set attached interfaces in promiscous mode
+ifconfig ath0 0 up
+ifconfig ath1 0 up
+
+# start ovs bridges
+ifconfig br0 192.168.11.1 netmask 255.255.255.0 up
+ifconfig br1 192.168.12.1 netmask 255.255.255.0 up
+</code></pre>
+<h4><a id="pox" class="anchor" href="#pox" aria-hidden="true"><span class="octicon octicon-link"></span>2.2. POX</a></h4>
+<p>As OpenFlow controller we choose POX. But if you are more familiar with another controller it can be also done. However you need to create a script capable to handle the handover trigger form the user device, and change some code in order to avoid the controller ereasing the OvS flow rules when a new connection is establish.</p>  
+<p>If you decide to use POX, you can download it form our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> with the necessary changes already done, or download it from the <a href="https://github.com/noxrepo/pox" target="_blank">oficial</a> developer and do yourself the changes.</p>
+
+<h6>a) How to run POX</h6>
+<p>POX officially requires Python 2.7 (though much of it will work fine fine with Python 2.6), and should run under Linux, Mac OS, and Windows.</p>
+
+<code><pre>
+The script ext/handover_mn.py handles the Mobile Node handover request. 
+Run it along with l3_learning
+* You can run with the "py" component and use the CLI:
+  ./pox.py forwarding.l3_learning handover_mn py
+
+The script ext/handover_mn_rules.py handles the Mobile Node handover request 
+while implementes a certain number of dummy rules. As in the script before, 
+run it along with l3_learning
+
+* You can run with the "py" component and use the CLI:
+  ./pox.py forwarding.l3_learning handover_mn_rules py
+</code></pre>
+
+
+<h3><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h3>
+TESTE
+      </section>
+      <footer>
+        <small>
+ 
+		</small>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
