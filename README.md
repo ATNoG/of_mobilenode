@@ -5,9 +5,6 @@ This project mains to implement a flow mobility on the end nodes through OpenFlo
 The framework was design to work on 6 nodes (one for each emulated network node) of the AMazING tested, sited in the rooftop of Instituto de Telecomunicações de Aveiro.
 Each node is composed by a VIA Eden 1GHz processor with 1GB RAM and two wireless interfaces (an 802.11a/b/g/n Atheros 9K and a 802.11a/b/g Atheros 5K), running Ubuntu 12.04 LTS.
 
-## Network configure
-ip's, vlan's
-
 ## Open vSwitch installation
 Since we do not change the OvS software you can check out how to install the sofware on developers [github](https://github.com/openvswitch/ovs).
 
