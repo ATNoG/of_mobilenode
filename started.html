@@ -24,8 +24,8 @@
         	<dd><a href="#started">Getting Started</a></dd>
                 <dt><a href="#installation">1. Installation</a></dt>
                 <dt><a href="#software">2. Requerid Software</a></dt>
-                <p><a href="#ovs">2.1. Open vSwicth</a></p>
-                <p><a href="#pox">2.2. POX</a></p>
+                  <p><a href="#ovs">2.1. Open vSwicth</a></p>
+                  <p><a href="#pox">2.2. POX</a></p>
                 <dt><a href="#demo">3. Running a demo</a></dt>
           <dd><a href="framework.html">System Framework</a></dd>
         	<dd><a href="index.html#authors">Authors & Copyright</a></dd>
@@ -52,10 +52,13 @@ Since we do not develop or change the OvS software, here we will not explain the
 To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
 
 <h5>2.1.1. OvS configuration</h5>
+<p>The configuration applied to the OvS software in the nodes was a conventional layer 3 switch, where each network interface has a OvS bridge attached with an associated IP address. The forwarding packets process was taken by the nodes' kernel, leaving to the OvS the possibility of changing the packtes or applying a new forwarding rule.
+Below is shown a possible OvS configuration for the network nodes.</p>
+
 <h6>a) Router, APs and Listener</h6>
 <p>This example was used to configure the Router node. The remain nodes configuration is similar, keeping in mind that is necessary to change to the respectives network interfaces and IP addresses. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
-<p>The follow command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.</p>
-<p>echo 1 > /proc/sys/net/ipv4/ip_forward</p>
+<p>The following command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.<br><code>echo 1 > /proc/sys/net/ipv4/ip_forward</code></p>
+
 
 
 <pre><code># add bridge to ethernet interfaces
@@ -75,6 +78,9 @@ ifconfig router 192.168.10.254 netmask 255.255.255.0 up
 </pre></code>
 
 <h6>b) Mobile Node</h6>
+<p>
+  The OvS configuration applied to the mobile node has is somehow different of the other network nodes, due to the need of applying new forwarding rule over the kernels forwarding, in order to forward the packet to the other wireless interface. To do that the both mobile node's OvS bridges, attached of each wireless interface, were interconnected by a patch port that will act as a patch cable. Below is shown an exemple of a mobile node's Ovs configuration.</p>
+
 <pre><code># add bridge to ethernet interfaces
 ovs-vsctl add-br br0
 ovs-vsctl add-br br1
@@ -126,7 +132,18 @@ run it along with l3_learning
 
 
 <h3><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h3>
-TESTE
+<p>
+  The demo here described suposes an already installation of the software nodes and the link between them already established. Rather than we will described the necessary rules pre-implemented rules on the OvS bridges and how to stream the a video. To stream the video you choose the <a href="http://www.videolan.org/vlc/" target="_blank"> VLC</a> application, however if you have another streaming application that you are more familiar with, you can use it as well.
+</p>
+<p>To install the VLC app on ubuntu you can use the following command:<pre><code>sudo apt-get install vlc-nox</code></pre></p>
+
+<h6>a) Network architecture</h6>
+<img src="images/network.jpg" width="30%">
+<h6>b) Setting up the network</h6>
+
+<h6>c) Start running</h6>
+
+
       </section>
       <footer>
         <small>
