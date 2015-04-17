@@ -138,11 +138,48 @@ run it along with l3_learning
 <p>To install the VLC app on ubuntu you can use the following command:<pre><code>sudo apt-get install vlc-nox</code></pre></p>
 
 <h6>a) Network architecture</h6>
-<img src="images/network.jpg" width="30%">
+<div style="float:right; width:35%"><img src="images/network.jpg" width="90%" align="right"></div>
+<p>
+  The project was develop exploring a tree network topology with 6 nodes (2 access points, router, network controller, mobile node and a terminal). We also explore the fact of the mobile node beeing the source content, streaming a video through the network towards the terminal receiver. Keeping that in mind, the mobile node has a wireless connection with both AP's, whereas all the other nodes have a physical link connection. All nodes can ping each other.
+</p>
+
+
+
 <h6>b) Setting up the network</h6>
+<p>
+  how to set up
+</p>
+
 
 <h6>c) Start running</h6>
+<p>Here we show an example of a demo through a bash script.</p>
+  <pre><code>#!/bin/bash
+# DEMO: handover with openflow
+## start capture
+sudo tcpdump -ni ath1 -w file_ath1_dump.pcap &
+sudo tcpdump -ni ath0 -w file_ath0_dump.pcap &
+## implement basic rules in MobileNode's ovs-bridges 
+sudo ./rules.sh
+sleep 2
 
+## T=0
+# start video streaming
+cvlc -dvvv BigBuckBunny1080p.mp4 --sout '#duplicate{dst=rtp{{mux=ts,dst=192.168.10.1}}}'
+sleep 20
+## T=20
+# reduce the troughput - decrease the TxPower and bit rate
+sudo iwconfig ath0 txpower 1
+sudo iwconfig ath0 rate 5.5M
+sleep 10
+## T=30
+# send "handover" solicitation packet to the controller
+echo “help” > /dev/udp/11.11.11.11/58549
+sleep 30
+
+## T=60
+# kill the processes
+sudo pkill tcpdump
+pkill vlc</code></pre>
 
       </section>
       <footer>
