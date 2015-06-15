@@ -20,13 +20,14 @@
         <p class="header"></p>
 		    <dl>
         	<h5>Table of Contents</h5>
-        	<dd><a href="index.html">Introdution</a></dd>
+        	<dd><a href="index.html">Introduction</a></dd>
         	<dd><a href="#started">Getting Started</a></dd>
                 <dt><a href="#installation">1. Installation</a></dt>
-                <dt><a href="#software">2. Requerid Software</a></dt>
+                <dt><a href="#software">2. Required Software</a></dt>
                   <p><a href="#ovs">2.1. Open vSwicth</a></p>
                   <p><a href="#pox">2.2. POX</a></p>
                 <dt><a href="#demo">3. Running a demo</a></dt>
+                  <p><a href="#demo2">3.1. Multiple data flow management</a></p>
           <dd><a href="framework.html">System Framework</a></dd>
         	<dd><a href="index.html#authors">Authors & Copyright</a></dd>
         </dl>
@@ -42,24 +43,22 @@
 	
 
 <h3><a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span>1. Installation</a></h3>
-In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distribuited as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
+In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distributed as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
 
 <h3><a id="software" class="anchor" href="#software" aria-hidden="true"><span class="octicon octicon-link"></span>2. Required Software</a></h3>
-With the purpose of extending the OpenFlow control path up to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent in that node.
+With the purpose of extending the OpenFlow control path all the way to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent.
 
 <h4><a id="ovs" class="anchor" href="#ovs" aria-hidden="true"><span class="octicon octicon-link"></span>2.1. Open vSwitch</a></h4>
 Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
 To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
 
 <h5>2.1.1. OvS configuration</h5>
-<p>The configuration applied to the OvS software in the nodes was a conventional layer 3 switch, where each network interface has a OvS bridge attached with an associated IP address. The forwarding packets process was taken by the nodes' kernel, leaving to the OvS the possibility of changing the packtes or applying a new forwarding rule.
+<p>The configuration applied to the OvS software in the nodes was a conventional layer 3 switch, where each network interface has a OvS bridge attached with an associated IP address. The forwarding packets process was taken by the nodes' kernel, leaving to the OvS the possibility of changing the packts or applying a new forwarding rule.
 Below is shown a possible OvS configuration for the network nodes.</p>
 
 <h6>a) Router, APs and Listener</h6>
-<p>This example was used to configure the Router node. The remain nodes configuration is similar, keeping in mind that is necessary to change to the respectives network interfaces and IP addresses. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
+<p>This example was used to configure the Router node. The remaining nodes configuration is similar, keeping in mind that the changes to the respective network interface and IP addresse are necessary. It is also important to set the connection mode of the controller to out-of-band. The configuration of the mobile nodes shows how this can be done.</p>
 <p>The following command line enable the packets forwarding, and it is necessary to allow the router and APs nodes forward the receiving packets.<br><code>echo 1 > /proc/sys/net/ipv4/ip_forward</code></p>
-
-
 
 <pre><code># add bridge to ethernet interfaces
 ovs-vsctl add-br router
@@ -79,7 +78,7 @@ ifconfig router 192.168.10.254 netmask 255.255.255.0 up
 
 <h6>b) Mobile Node</h6>
 <p>
-  The OvS configuration applied to the mobile node has is somehow different of the other network nodes, due to the need of applying new forwarding rule over the kernels forwarding, in order to forward the packet to the other wireless interface. To do that the both mobile node's OvS bridges, attached of each wireless interface, were interconnected by a patch port that will act as a patch cable. Below is shown an exemple of a mobile node's Ovs configuration.</p>
+  The OvS configuration applied to the mobile node is somehow different of the other network nodes, due to the need of applying new forwarding rule over the kernels forwarding, in order to forward the packet to the other wireless interface. To do that both mobile node's OvS bridges, attached of each wireless interface, were interconnected by a patch port that will act as a patch cable. Below is shown an example of a mobile node's Ovs configuration.</p>
 
 <pre><code># add bridge to ethernet interfaces
 ovs-vsctl add-br br0
@@ -110,7 +109,7 @@ ifconfig br0 192.168.11.1 netmask 255.255.255.0 up
 ifconfig br1 192.168.12.1 netmask 255.255.255.0 up
 </code></pre>
 <h4><a id="pox" class="anchor" href="#pox" aria-hidden="true"><span class="octicon octicon-link"></span>2.2. POX</a></h4>
-<p>As OpenFlow controller we choose POX. But if you are more familiar with another controller it can be also done. However you need to create a script capable to handle the handover trigger form the user device, and change some code in order to avoid the controller ereasing the OvS flow rules when a new connection is establish.</p>  
+<p>As OpenFlow controller we choose POX. But if you are more familiar with another controller it can be also done. However you need to create a script capable to handle the handover trigger form the user device, and change some code in order to avoid the controller erasing the OvS flow rules when a new connection is establish.</p>  
 <p>If you decide to use POX, you can download it form our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> with the necessary changes already done, or download it from the <a href="https://github.com/noxrepo/pox" target="_blank">oficial</a> developer and do yourself the changes.</p>
 
 <h6>a) How to run POX</h6>
@@ -120,14 +119,20 @@ ifconfig br1 192.168.12.1 netmask 255.255.255.0 up
 The script ext/handover_mn.py handles the Mobile Node handover request. 
 Run it along with l3_learning
 * You can run with the "py" component and use the CLI:
-  ./pox.py forwarding.l3_learning handover_mn py
+  ./pox.py forwarding.l3_learning handover_mn
 
 The script ext/handover_mn_rules.py handles the Mobile Node handover request 
-while implementes a certain number of dummy rules. As in the script before, 
+while implements a certain number of dummy rules. As in the script before, 
 run it along with l3_learning
 
 * You can run with the "py" component and use the CLI:
-  ./pox.py forwarding.l3_learning handover_mn_rules py
+  ./pox.py forwarding.l3_learning handover_mn_rules
+
+The script ext/handover_multipleFlow.py handles the AP handover request 
+As in the script before, run it along with l3_learning
+
+* You can run with the "py" component and use the CLI:
+  ./pox.py forwarding.l3_learning handover_multipleFlow
 </code></pre>
 
 
@@ -180,6 +185,25 @@ sleep 30
 # kill the processes
 sudo pkill tcpdump
 pkill vlc</code></pre>
+
+<h4><a id="demo2" class="anchor" href="#demo2" aria-hidden="true"><span class="octicon octicon-link"></span>Multiple data flow management</a></h4>
+under development
+
+
+<h5>3.1.1. Necessary changes</h5>
+under development
+
+<h5>3.1.2. Demo</h5>
+under development
+
+<h6>a) Network architecture</h6>
+under development
+
+<h6>b) Setting up the network</h6>
+under development
+
+<h6>c) Start running</h6>
+under development
 
       </section>
       <footer>
