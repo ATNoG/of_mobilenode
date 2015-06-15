@@ -187,14 +187,40 @@ sudo pkill tcpdump
 pkill vlc</code></pre>
 
 <h4><a id="demo2" class="anchor" href="#demo2" aria-hidden="true"><span class="octicon octicon-link"></span>3.1. Multiple flow</a></h4>
-under development
+<p>This experiment explores SDN mechanisms extended all the way to the mobile node, featuring different mobile nodes with multiple data flows. By adding SDN support to the mobile nodes, enabled flow-based mobility management from the network controller, via OpenFlow protocol.
 
+In this experiment the AP is able to monitor its own received traffic, sending a handover solicitation when overloads. This capability was added by the bash script available in our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> (packet_parse.sh).</p>
 
 <h5>3.1.1. Necessary changes</h5>
 under development
 
 <h5>3.1.2. Demo</h5>
-under development
+<pre><code>1. Iperf stream from wireless node starts:
+iperf -c 10.10.12.101 -u -b 8m -t 120
+IP dst = 10.10.12.101, User Datagram Protocol (UDP), port = 5001;
+The wireless node sends the udp packets towards AP2 through at 8 Mbps;
+2. After 5 seconds MN1 starts its own iperf stream:
+iperf -c 192.168.10.1 -u -b 8m -t 100
+IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
+The MN1 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
+Mbps;
+3. After 15 seconds MN2 starts its own iperf stream:
+iperf -c 192.168.10.1 -u -b 8m -t 100
+IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
+The MN2 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
+Mbps;
+4. The load of AP2 reach the threshold (i.e., 18 Mbps), forcing the AP2 sending the handover
+solicitation:
+AP2 sends packet_in - UDP packet sent to the IP addess 11.11.11.11;
+The OvS of AP2 has implemented a forwarding rules that sends to the Controller the packets
+with destination IP 11.11.11.11, through a packet_in message;
+5. Controller receives and analyzes the packet_in message;
+6. Controller perform the MN1 handover:
+It sends the first flow_mod message, and promptly sends the barrier_request message;
+MN1 implements the flow modification and responds the barrier_request with a barrier_reply
+message;
+Controller barrier_reply message, analyzes it and sends second flow_mod message;
+MN1 receives the second flow_mod message and starts redirecting flows.</code></pre>
 
 <h6>a) Network architecture</h6>
 under development
