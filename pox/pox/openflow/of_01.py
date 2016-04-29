@@ -145,8 +145,8 @@ def handle_FEATURES_REPLY (con, msg):
   if con.ofnexus.miss_send_len is not None:
     con.send(of.ofp_set_config(miss_send_len =
                                   con.ofnexus.miss_send_len))
-  #if con.ofnexus.clear_flows_on_connect:
-  #  con.send(of.ofp_flow_mod(match=of.ofp_match(),command=of.OFPFC_DELETE))
+  if con.ofnexus.clear_flows_on_connect:
+    con.send(of.ofp_flow_mod(match=of.ofp_match(),command=of.OFPFC_DELETE))
 
   con.send(barrier)
 

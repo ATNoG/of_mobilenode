@@ -326,7 +326,7 @@ class OpenFlowNexus (EventMixin):
   miss_send_len = of.OFP_DEFAULT_MISS_SEND_LEN
 
   # Enable/Disable clearing of flows on switch connect
-  clear_flows_on_connect = True
+  clear_flows_on_connect = False
 
   def __init__ (self):
     self._connections = ConnectionDict() # DPID -> Connection

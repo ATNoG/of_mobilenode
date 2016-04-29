@@ -1,5 +1,6 @@
 # of_mobilenode
-This project mains to implement a flow mobility on the end nodes through OpenFlow tools. To accomplish that OpenFlow agents Open vSwitch and POX were used to perform the flow mobility.
+This project mains to implement a flow mobility on the end nodes through OpenFlow tools. 
+To accomplish that OpenFlow agents Open vSwitch and POX were used.
 
 ## System framework
 The framework was design to work on 6 nodes (one for each emulated network node) of the AMazING tested, sited in the rooftop of Instituto de Telecomunicações de Aveiro.
@@ -16,14 +17,8 @@ The script ext/handover_mn.py handles the Mobile Node handover request. Run it a
 
 * You can run with the "py" component and use the CLI:
 
-  ./pox.py forwarding.l3_learning handover_mn py
+  ./pox.py forwarding.l3_learning handover_demo1a py
 
-
-The script ext/handover_mn_rules.py handles the Mobile Node handover request while implementes a certain number of dummy rules. As in the script before, run it along with l3_learning
-
-* You can run with the "py" component and use the CLI:
-
-  ./pox.py forwarding.l3_learning handover_mn_rules py
 
 ## Get more information
-Check the more information about how to configure and reproduce the experience on the [documentation](http://atnog.github.io/of_mobilenode/index.html).
+For more information about how to configure and reproduce the experience check the [documentation](http://atnog.github.io/of_mobilenode/index.html).
