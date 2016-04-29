@@ -26,8 +26,7 @@
                 <dt><a href="#software">2. Required Software</a></dt>
                   <p><a href="#ovs">2.1. Open vSwicth</a></p>
                   <p><a href="#pox">2.2. POX</a></p>
-                <dt><a href="#demo">3. Running a demo</a></dt>
-                  <p><a href="#demo2">3.1. Multiple flow</a></p>
+                <dt><a href="demo1.html">3. Running a demo</a></dt>
           <dd><a href="framework.html">System Framework</a></dd>
         	<dd><a href="../index.html#authors">Authors & Copyright</a></dd>
         </dl>
@@ -43,17 +42,17 @@
 	
 
 <h3><a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span>1. Installation</a></h3>
-In this project we did not developed new software, instead we use explore the configuration of softwares already develop and distributed as open-source. So, instead of presenting how to do the installation we will rather present the needed configuration to reproduce an experience.
+In this project we did not developed new software, instead we explore the configuration of softwares distributed as open-source. So, instead of presenting how to do the installation we will rather present the required configuration to reproduce an experience.
 
 <h3><a id="software" class="anchor" href="#software" aria-hidden="true"><span class="octicon octicon-link"></span>2. Required Software</a></h3>
-With the purpose of extending the OpenFlow control path all the way to the mobile node, the OvS with its dependencies was installed in every network node, except on the controller node, where the POX was used as the OpenFlow agent.
+With the purpose of extending the OpenFlow control path all the way to the mobile node, the OvS and its dependencies were installed in every network node, excepting on the controller node, where the POX was used as the OpenFlow agent.
 
 <h4><a id="ovs" class="anchor" href="#ovs" aria-hidden="true"><span class="octicon octicon-link"></span>2.1. Open vSwitch</a></h4>
-Since we do not develop or change the OvS software, here we will not explain the its installation, rather we will just explain how the configuration was done. 
-To install you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
+Since we did not change the OvS software, here we will only explain how to configure it. 
+To install it you can follow the steps presented on Open vSwitch <a href="https://github.com/openvswitch/ovs" target="_blank">github</a>.
 
 <h5>2.1.1. OvS configuration</h5>
-<p>The configuration applied to the OvS software in the nodes was a conventional layer 3 switch, where each network interface has a OvS bridge attached with an associated IP address. The forwarding packets process was taken by the nodes' kernel, leaving to the OvS the possibility of changing the packts or applying a new forwarding rule.
+<p>The configuration applied to the OvS software in the nodes was a conventional layer 3 switch, where each network interface has an OvS bridge attached with an associated IP address. The forwarding packets process was taken by the nodes' kernel, leaving to the OvS the possibility of changing the packets or applying a new forwarding rule.
 Below is shown a possible OvS configuration for the network nodes.</p>
 
 <h6>a) Router, APs and Listener</h6>
@@ -136,107 +135,10 @@ As in the script before, run it along with l3_learning
 </code></pre>
 
 
-<h3><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h3>
-<p>
-  The demo here described suposes an already installation of the software nodes and the link between them already established. Rather than we will described the necessary rules pre-implemented rules on the OvS bridges and how to stream the a video. To stream the video you choose the <a href="http://www.videolan.org/vlc/" target="_blank"> VLC</a> application, however if you have another streaming application that you are more familiar with, you can use it as well.
-</p>
-<p>To install the VLC app on ubuntu you can use the following command:<pre><code>sudo apt-get install vlc-nox</code></pre></p>
-
-<h6>a) Network architecture</h6>
-<div style="float:right; width:35%"><img src="images/network.jpg" width="90%" align="right"></div>
-<p>
-  The project was develop exploring a tree network topology with 6 nodes (2 access points, router, network controller, mobile node and a terminal). We also explore the fact of the mobile node beeing the source content, streaming a video through the network towards the terminal receiver. Keeping that in mind, the mobile node has a wireless connection with both AP's, whereas all the other nodes have a physical link connection. All nodes can ping each other.
-</p>
-
-
-
-<h6>b) Setting up the network</h6>
-<p>
-  how to set up
-</p>
-
-
-<h6>c) Start running</h6>
-<p>Here we show an example of a demo through a bash script.</p>
-  <pre><code>#!/bin/bash
-# DEMO: handover with openflow
-## start capture
-sudo tcpdump -ni ath1 -w file_ath1_dump.pcap &
-sudo tcpdump -ni ath0 -w file_ath0_dump.pcap &
-## implement basic rules in MobileNode's ovs-bridges 
-sudo ./rules.sh
-sleep 2
-
-## T=0
-# start video streaming
-cvlc -dvvv BigBuckBunny1080p.mp4 --sout '#duplicate{dst=rtp{{mux=ts,dst=192.168.10.1}}}'
-sleep 20
-## T=20
-# reduce the troughput - decrease the TxPower and bit rate
-sudo iwconfig ath0 txpower 1
-sudo iwconfig ath0 rate 5.5M
-sleep 10
-## T=30
-# send "handover" solicitation packet to the controller
-echo “help” > /dev/udp/11.11.11.11/58549
-sleep 30
-
-## T=60
-# kill the processes
-sudo pkill tcpdump
-pkill vlc</code></pre>
-
-<h4><a id="demo2" class="anchor" href="#demo2" aria-hidden="true"><span class="octicon octicon-link"></span>3.1. Multiple flow</a></h4>
-<p>This experiment explores SDN mechanisms extended all the way to the mobile node, featuring different mobile nodes with multiple data flows. By adding SDN support to the mobile nodes, enabled flow-based mobility management from the network controller, via OpenFlow protocol.
-
-In this experiment the AP is able to monitor its own received traffic, sending a handover solicitation when overloads. This capability was added by the bash script available in our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> (packet_parse.sh).</p>
-
-<h5>3.1.1. Necessary changes</h5>
-under development
-
-<h5>3.1.2. Demo</h5>
-<pre><code>1. Iperf stream from wireless node starts:
-iperf -c 10.10.12.101 -u -b 8m -t 120
-IP dst = 10.10.12.101, User Datagram Protocol (UDP), port = 5001;
-The wireless node sends the udp packets towards AP2 through at 8 Mbps;
-2. After 5 seconds MN1 starts its own iperf stream:
-iperf -c 192.168.10.1 -u -b 8m -t 100
-IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
-The MN1 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
-Mbps;
-3. After 15 seconds MN2 starts its own iperf stream:
-iperf -c 192.168.10.1 -u -b 8m -t 100
-IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
-The MN2 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
-Mbps;
-4. The load of AP2 reach the threshold (i.e., 18 Mbps), forcing the AP2 sending the handover
-solicitation:
-AP2 sends packet_in - UDP packet sent to the IP addess 11.11.11.11;
-The OvS of AP2 has implemented a forwarding rules that sends to the Controller the packets
-with destination IP 11.11.11.11, through a packet_in message;
-5. Controller receives and analyzes the packet_in message;
-6. Controller perform the MN1 handover:
-It sends the first flow_mod message, and promptly sends the barrier_request message;
-MN1 implements the flow modification and responds the barrier_request with a barrier_reply
-message;
-Controller barrier_reply message, analyzes it and sends second flow_mod message;
-MN1 receives the second flow_mod message and starts redirecting flows.</code></pre>
-
-<h6>a) Network architecture</h6>
-under development
-
-<h6>b) Setting up the network</h6>
-under development
-
-<h6>c) Start running</h6>
-under development
-
-      </section>
-      <footer>
-        <small>
- 
-		</small>
-      </footer>
+</section>
+<footer>
+<small></small>
+</footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
 		

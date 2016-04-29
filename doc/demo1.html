@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>OF Mobile Node</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <script src="../javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">OF Mobile Node</h1>
+        <p class="header"></p>
+		    <dl>
+        	<h5>Table of Contents</h5>
+        	<dd><a href="../index.html">Introduction</a></dd>
+        	<dd><a href="#started">Getting Started</a></dd>
+                <dt><a href="started.html">1. Installation</a></dt>
+                <dt><a href="started.html#software">2. Required Software</a></dt>
+                <dt><a href="#run">3. Running a demo</a></dt>
+                  <p><a href="#demo1">3.1. First Experience</a></p>
+                  <p><a href="demo2.html">3.2. Multiple flow</a></p>
+                  <p><a href="demo3.html">3.3. Demo#3</a></p>
+          <dd><a href="framework.html">System Framework</a></dd>
+        	<dd><a href="../index.html#authors">Authors & Copyright</a></dd>
+        </dl>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ATNoG/of_mobilenode">View On GitHub</a></li>
+        </ul>
+      </header>
+      <section>
+
+<h2><a id="run" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h2>
+<p>The demo next presented suposes an already installation of the <a href="started.html#software">required software</a> in the network nodes, as well as the link between them established.</p>
+<p>The demo handovers a video stream from access point to another via OpenFlow control messages. Here we describe the necessary rules on the OvS bridges and how to stream the video.</p> 
+<p>To stream the video we used the <a href="http://www.videolan.org/vlc/" target="_blank"> VLC</a> application, however if you have another streaming application that you are more familiar with, you can use it as well.</p>
+
+<h6>a) Network architecture</h6>
+<div style="float:right; width:35%"><img src="../images/network_demo1.jpg" width="90%" align="right"></div>
+<p>
+  The project was develop exploring a tree network topology with 6 nodes (2 access points, router, network controller, mobile node and a terminal). We also explore the fact of the mobile node beeing the source content, streaming a video through the network towards the terminal receiver. Keeping that in mind, the mobile node has a wireless connection with both AP's, whereas all the other nodes have a physical link connection. All nodes can ping each other.
+</p>
+
+
+
+<h6>b) Setting up the network</h6>
+<p>work in progress</p>
+
+<p>To install the VLC app on ubuntu you can use the following command:
+<pre><code>sudo apt-get install vlc-nox</code></pre></p>
+
+<p>AP - install hostapd
+<pre><code>sudo apt-get install hostapd</code></pre></p>
+
+<h6>c) Start running</h6>
+<p>Here we show an example of a demo through a bash script.</p>
+  <pre><code>#!/bin/bash
+# DEMO: handover with openflow
+## start capture
+sudo tcpdump -ni ath1 -w file_ath1_dump.pcap &
+sudo tcpdump -ni ath0 -w file_ath0_dump.pcap &
+## implement basic rules in MobileNode's ovs-bridges 
+sudo ./rules.sh
+sleep 2
+
+## T=0
+# start video streaming
+cvlc -dvvv BigBuckBunny1080p.mp4 --sout '#duplicate{dst=rtp{{mux=ts,dst=192.168.10.1}}}'
+sleep 20
+## T=20
+# reduce the troughput - decrease the TxPower and bit rate
+sudo iwconfig ath0 txpower 1
+sudo iwconfig ath0 rate 5.5M
+sleep 10
+## T=30
+# send "handover" solicitation packet to the controller
+echo “help” > /dev/udp/11.11.11.11/58549
+sleep 30
+
+## T=60
+# kill the processes
+sudo pkill tcpdump
+pkill vlc</code></pre>
+
+      </section>
+      <footer>
+        <small>
+ 
+		</small>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>

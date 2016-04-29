@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>OF Mobile Node</title>
+
+    <link rel="stylesheet" href="../stylesheets/styles.css">
+    <link rel="stylesheet" href="../stylesheets/pygment_trac.css">
+    <script src="../javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">OF Mobile Node</h1>
+        <p class="header"></p>
+		    <dl>
+        	<h5>Table of Contents</h5>
+        	<dd><a href="../index.html">Introduction</a></dd>
+        	<dd><a href="#started">Getting Started</a></dd>
+                <dt><a href="started.html">1. Installation</a></dt>
+                <dt><a href="started.html#software">2. Required Software</a></dt>
+                <dt><a href="#run">3. Running a demo</a></dt>
+                  <p><a href="demo1.html">3.1. First Experience</a></p>
+                  <p><a href="#demo2">3.2. Multiple flow</a></p>
+                  <p><a href="demo3.html">3.3. Demo#3</a></p>
+          <dd><a href="framework.html">System Framework</a></dd>
+        	<dd><a href="../index.html#authors">Authors & Copyright</a></dd>
+        </dl>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/ATNoG/of_mobilenode">View On GitHub</a></li>
+        </ul>
+      </header>
+      <section>
+
+<h2><a id="run" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span>3. Running a demo</a></h2>
+<p>
+
+<h3><a id="demo2" class="anchor" href="#demo2" aria-hidden="true"><span class="octicon octicon-link"></span>3.1. Multiple flow</a></h3>
+<p>This experiment explores an extension of SDN mechanisms all the way to the mobile node, featuring different mobile nodes with multiple data flows. By adding SDN support to the mobile nodes, a flow-based mobility management from the network controller was enabled, via OpenFlow protocol.</p>
+
+<p>In this experiment the AP is able to monitor its own received traffic, sending a handover solicitation when overloads. This capability was added by the bash script available in our <a href="https://github.com/ATNoG/of_mobilenode" target="_blank">github</a> (packet_parse.sh).</p>
+
+
+<h6>a) Network architecture</h6>
+<div style="float:right; width:35%"><img src="../images/network_demo2.jpg" width="90%" align="right"></div>
+<p>
+  The project was develop exploring a tree network topology with 8 nodes (3 access points, router, network controller, 2 mobile node and a terminal). We also explore the fact of the mobile node beeing the source content, streaming a video through the network towards the terminal receiver.</p>
+<p>
+  Keeping that in mind, both mobile node has a wireless connection with both AP's, whereas all the other nodes have a physical link connection. All nodes can ping each other.
+</p>
+<h6>b) Setting up the network</h6>
+work in progress
+<p>AP - install hostapd
+<pre><code>sudo apt-get install hostapd</code></pre></p>
+
+<p>Mobile and listener nodes - install iperf
+<pre><code>sudo apt-get install iperf</code></pre></p>
+
+<h6>c) Demo description</h6>
+
+<p>1. Iperf stream from wireless node starts:
+<code>
+<br>iperf -c 10.10.12.101 -u -b 8m -t 120
+<br>IP dst = 10.10.12.101, User Datagram Protocol (UDP), port = 5001;
+<br>The wireless node sends the udp packets towards AP2 through at 8 Mbps;
+</code>
+</p>
+
+<p>2. After 5 seconds MN1 starts its own iperf stream:
+<code>
+<br>iperf -c 192.168.10.1 -u -b 8m -t 100
+<br>IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
+<br>The MN1 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
+Mbps;
+</code>
+</p>
+
+<p>3. After 15 seconds MN2 starts its own iperf stream:
+<code>
+<br>iperf -c 192.168.10.1 -u -b 8m -t 100
+<br>IP dst = 192.168.10.1, User Datagram Protocol (UDP), port = 5001;
+<br>The MN2 sends the udp packets towards LN through interface attached to AP2 (i.e., ath0) at 8
+Mbps;
+</code>
+</p>
+<p>4. The load of AP2 reach the threshold (i.e., 18 Mbps), forcing the AP2 sending the handover
+solicitation:
+<code>
+<br>AP2 sends packet_in - UDP packet sent to the IP addess 11.11.11.11;
+<br>The OvS of AP2 has implemented a forwarding rules that sends to the Controller the packets
+with destination IP 11.11.11.11, through a packet_in message;
+</code>
+</p>
+
+<p>5. Controller receives and analyzes the packet_in message;</p>
+
+<p>6. Controller perform the MN1 handover:
+<code>
+<br>It sends the first flow_mod message, and promptly sends the barrier_request message;
+<br>MN1 implements the flow modification and responds the barrier_request with a barrier_reply
+message;
+<br>Controller barrier_reply message, analyzes it and sends second flow_mod message;
+<br>MN1 receives the second flow_mod message and starts redirecting flows.
+</code>
+</p>
+
+<h6>d) Start running</h6>
+work in progress
+
+      </section>
+      <footer>
+        <small>
+ 
+		</small>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
