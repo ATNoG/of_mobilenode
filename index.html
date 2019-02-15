@@ -1,70 +1,295 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>OF Mobile Node</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OFMN by ATNoG</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">OF Mobile Node</h1>
-        <p class="header"></p>
-		<dl>
-        	<h5>Table of Contents</h5>
-        	<dd><a href="#into">Introduction</a></dd>
-        	<dd><a href="doc/started.html">Getting Started</a></dd>
-        	<dd><a href="doc/framework.html">System Framework</a></dd>
-        	<dd><a href="#authors">Authors & Copyright</a></dd>
-        </dl>
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/ATNoG/of_mobilenode/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/ATNoG/of_mobilenode">View On GitHub</a></li>
+  <!-- Favicons 
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+  -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="lib/aos/aos.css" rel="stylesheet">
+  <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: Avilon
+    Theme URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+
+  <!--==========================
+    Header
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <h1><a href="#intro" class="scrollto">OFMN</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="#intro"><img src="img/logo.png" alt="" title="" /></img></a> -->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#intro">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="#team">Members</a></li>
+          <li><a href="https://github.com/ATNoG/of_mobilenode/wiki" target="_blank">Documentation</a></li>
         </ul>
-      </header>
-      <section>
-        
-
-<h2><a id="into" class="anchor" href="#into" aria-hidden="true"><span class="octicon octicon-link"></span>Introdution</h2></a>
-<h5>What is this?</h5>
-<p>This project aims to implement a flow mobility on the end nodes through OpenFlow tools. To accomplish that OpenFlow agents Open vSwitch (OvS) and POX were used to perform the flow mobility.</p>
-<h5>What does it do?</h5>
-<p>This project provides the configuration of an OvS and POX that allows to perform a OpenFlow control path all the way to a terminal mobile user, and accomplish a handover request through OpenFlow control messages.</p>
-<h5>What differences can be found regarding other flow mobility implementations?</h5>
-<p>This project aims a SDN extension to end nodes towards heterogeneous wireless mobility, implying a new hop (terminal user) of the previous flow mobility implementations.</p>
-<h5>What does this mean?</h5>
-<p>This implementation aims to provide to the OpenFlow controller the capability to redirect flows of an attached mobile node, when a handover request is triggered.</p>
-<h5>How can I contribute?</h5>
-<p>Contact us <a href="#authors">here</a></p>
-
-<h2><a id="authors" class="anchor" href="#authors" aria-hidden="true"><span class="octicon octicon-link"></span>Authors and Contributors</a></h2>
-	<p>This project was develop by
-	<center><code>Fl&aacute;vio Meneses, Daniel Corujo, Carlos Guimar&atilde;es, Rui Aguiar</code></center>
-		and it is maintained by <a href="https://www.it.pt/Groups/Index/19" target="_blank">ATNoG</a>.</p>
-	<p>The project here described was submitted for the scientific publications:
-		<ul><li>Flavio Meneses, Daniel Corujo, Carlos Guimarães, Rui L. Aguiar, "Extending SDN to End Nodes Towards Heterogeneous Wireless Mobility", Proc. IEEE International Workshop on Advances in Software Defined Radio Access Networks and Context-aware Cognitive Networks 2015, San Diego, CA,USA, Dec 2015</li>
-		<li>Flavio Meneses, Daniel Corujo, Carlos Guimarães, Rui L. Aguiar, "Multiple Flow in Extended SDN Wireless Mobility", Proc. 2015 European Workshop on Software Defined Networks, Bilbao, Spain, Aug 2015</li>
-		<li>Flavio Meneses, Daniel Corujo, Carlos Guimarães, Rui L. Aguiar, "Experimental Evaluation of SDN-based End-to-End Mobility Management in Wireless Environments", Proc. 14ª Conferência sobre Redes de Computadures (CRC), Évora, Portugal, Nov 2015</li></ul></p>
-	<p>Copyright &#169; 2015 Universidade Aveiro
-	<br>Copyright &#169; 2015 Instituto de Telecomunica&#231;&#245;es - P&#243;lo Aveiro</p>
-
-      </section>
-      <footer>
-        <small>
- 
-		</small>
-      </footer>
+      </nav><!-- #nav-menu-container -->
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
-  </body>
+  </header><!-- #header -->
+
+  <!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+
+    <div class="intro-text">
+      <h2>OpenFlow within the Mobile Node</h2>
+      <p>This project has been moved and merged in the 5G Virtual Cloud Mobility (5G-VCoM) project.</p>
+      <a href="https://atnog.github.io/5G-VCoM/" class="btn-get-started scrollto" target="_blank">Check 5G-VCoM</a>
+      <a href="#features" class="btn-get-started scrollto" target="_blank">Check OFMN</a>
+    </div>
+
+  </section><!-- #intro -->
+
+  <main id="main">
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="about" class="section-bg">
+      <div class="container-fluid">
+        <div class="section-header">
+          <h3 class="section-title">About Us</h3>
+          <span class="section-divider"></span>
+          <p class="section-description">
+            OpenFlow within the Mobile Node (OFMN) is an open-source project that <br>implements flow mobility on the end-nodes through OpenFlow-based tools.
+          </p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-10 content" data-aos="fade-left">
+            <h3>Extending SDN to End-Nodes</h3>
+            <p>OFMN aims to implement flow-based mobility on the end-nodes via the OpenFlow protocol. For that, OFMN uses the Open vSwitch (OvS) on the end-nodes (mobile wireless nodes inclusive) and an OpenFlow controller for flow managing.</p>
+            <p>OFMN does not modify the source code of the OvS. Instead, OFMN exploits specific configurations of the OvS, in order to enable the OpenFlow control path to be extended all the way to mobile user (i.e., MN).</p>
+            <p>OFMN extends OpenFlow control path (an extra hop - Mobile Nodes - from previous OpenFlow-based mobility implementations), allowing the MN to directly communicate with the OpenFlow controller. The OpenFlow controller is able to redirect specific flows from attached mobile nodes, when a handover request is triggered.</p>
+          
+            <h2>Publications</h2>
+            <ul>
+              <li><i class="ion-android-checkmark-circle"></i> Flavio Meneses, Carlos Guimarães, Daniel Corujo, Rui L. Aguiar, "SDN-based Mobility Management: Handover Performance Impact in Constrained Devices", Proc. 9th IFIP International Conference on New Technologies, Mobility & Security (NTMS 2018), Paris, France, Feb 2018 </li>
+              <li><i class="ion-android-checkmark-circle"></i> Flavio Meneses, Daniel Corujo, Carlos Guimarães, Rui L. Aguiar, "Extending SDN to End Nodes Towards Heterogeneous Wireless Mobility", Proc. IEEE International Workshop on Advances in Software Defined Radio Access Networks and Context-aware Cognitive Networks 2015, San Diego, CA,USA, Dec 2015</li>
+              <li><i class="ion-android-checkmark-circle"></i> Flavio Meneses, Daniel Corujo, Carlos Guimarães, Rui L. Aguiar, "Multiple Flow in Extended SDN Wireless Mobility", Proc. 2015 European Workshop on Software Defined Networks, Bilbao, Spain, Aug 2015 </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- #about -->
+
+    <!--==========================
+      Product Featuress Section
+    ============================-->
+    <section id="features">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-8 offset-lg-4">
+            <div class="section-header" data-aos="fade" data-aos-duration="1000">
+              <h3 class="section-title">Features</h3>
+              <span class="section-divider"></span>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-5 features-img">
+            <!--<img src="img/mobile-node.png" alt="" data-aos="fade-right" data-aos-easing="ease-out-back">-->
+            <img src="img/mobile-node.png" >
+          </div>
+
+          <div class="col-lg-8 col-md-7 ">
+
+            <div class="row">
+
+              <div class="col-lg-6 col-md-6 box" data-aos="fade-left">
+                <div class="icon"><i class="ion-android-walk"></i></div>
+                <h4 class="title">Mobility Management</h4>
+                <p class="description">The OpenFlow controller keeps the global network view and is able to manage the MN's connectivity.</p>
+              </div>
+              <div class="col-lg-6 col-md-6 box" data-aos="fade-left" data-aos-delay="100">
+                <div class="icon"><i class="ion-wifi"></i></div>
+                <h4 class="title">Traffic Offloading</h4>
+                <p class="description">OpenFlow-based mechanism for multi-RAT and multi-homing MNs without additional mobility protocols.</p>
+              </div>
+              <div class="col-lg-6 col-md-6 box" data-aos="fade-left" data-aos-delay="200">
+                <div class="icon"><i class="ion-unlocked"></i></div>
+                <h4 class="title">Technology Independent</h4>
+                <p class="description">Offloading mechanism independent of the network access technology.</p>
+              </div>
+              <div class="col-lg-6 col-md-6 box" data-aos="fade-left" data-aos-delay="300">
+                <div class="icon"><i class="ion-android-upload"></i></div>
+                <h4 class="title">Wireless Context</h4>
+                <p class="description">The MN provides its network point of view and assists the network management via OpenFlow.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- #features 
+"ion-ios-analytics-outline"
+"ion-ios-speedometer-outline"
+"ion-social-buffer-outline"
+  -->
+    <!--==========================
+      Demo Section
+    ============================-->
+    <section id="demo" class="section-bg">
+      <div class="container-fluid">
+        <div class="section-header">
+          <h3 class="section-title">Demo</h3>
+          <span class="section-divider"></span>
+          <p class="section-description">
+            Under development.
+          </p>
+        </div>
+
+        <div class="row">
+          <!-- <div class="col-lg-12 demo-video" data-aos="fade-right"> -->
+          <div class="col-lg-12 demo-video">
+            TBD
+            <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/_O1_BGZzndw?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>-->
+          </div>
+      </div>
+      </div>
+    </section><!-- #about -->
+
+    <!--==========================
+      Our Team Section
+    <section id="team" class="section-bg">
+    ============================-->
+    <section id="team">
+      <div class="container">
+        <div class="section-header">
+          <h3 class="section-title">Members</h3>
+          <span class="section-divider"></span>
+        </div>
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-3 col-md-6">
+            <div class="member">
+              <div class="userpic" style="background-image: url('https://atnog.av.it.pt/mygravatar/index.html%3Fgravatar_id=63f0e6ec260fccddf6e45319f460e243&size=85');">
+              </div>
+              <h4><a href="https://atnog.av.it.pt/members/flaviomeneses" target="_blank">Flavio Meneses</a></h4>
+              <span>Developer</span>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="member">
+              <div class="userpic" style="background-image: url('https://atnog.av.it.pt/mygravatar/index.html%3Fgravatar_id=9972b7d2c1902ff65d3f0b235b105a91&size=85');">
+              </div>
+              <h4><a href="https://atnog.av.it.pt/members/cguimaraes" target="_blank">Carlos Guimarães</a></h4>
+              <span>Contributor</span>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="member">
+              <div class="userpic" style="background-image: url('https://atnog.av.it.pt/mygravatar/index.html%3Fgravatar_id=ef8cc22437ff68319cf3ea86e3d9ae60&size=85');">
+              </div>
+              <h4><a href="https://atnog.av.it.pt/members/dcorujo" target="_blank">Daniel Corujo</a></h4>
+              <span>Project Manager</span>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="member">
+               <div class="userpic" style="background-image: url('https://atnog.av.it.pt/mygravatar/index.html%3Fgravatar_id=dae914a8971b9c8d19c708bbf54d92a7&size=85');">
+              </div>
+              <h4><a href="https://atnog.av.it.pt/members/ruilaa" target="_blank">Rui L. Aguiar</a></h4>
+              <span>Team Leader</span>
+            </div>
+        </div>
+</div>
+      </div>
+    </section><!-- #team -->
+
+
+   
+
+  </main>
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 text-lg-left text-center">
+          <div class="copyright">
+            &copy; Copyright <strong>Avilon</strong>. All Rights Reserved
+          </div>
+          <div class="credits">
+            <!--
+              All the links in the footer should remain intact.
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Avilon
+            -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </footer><!-- #footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/aos/aos.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+  <script src="lib/magnific-popup/magnific-popup.min.js"></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+
+</body>
 </html>
