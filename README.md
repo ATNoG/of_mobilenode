@@ -2,6 +2,15 @@
 This project mains to implement a flow mobility on the end nodes through OpenFlow tools. 
 To accomplish that OpenFlow agents Open vSwitch and POX were used.
 
+## Code reuse
+
+If you plan to reuse any of the available code, please consider to cite the following papers:
+
+- F. Meneses, D. Corujo, C. Guimarães, R. Aguiar, "Extending SDN to End Nodes Towards Heterogeneous Wireless Mobility", IEEE WS SDRANCAN (IEEE Globecom WS),USA, Dec 2015
+
+- F. Meneses, D. Corujo, C. Guimarães, R. Aguiar, "Multiple Flow in Extended SDN Wireless Mobility, European Workshop on Software Defined Networks", Spain, Aug 2015
+
+
 ## System framework
 The framework was design to work on 6 nodes (one for each emulated network node) of the AMazING tested, sited in the rooftop of Instituto de Telecomunicações de Aveiro.
 Each node is composed by a VIA Eden 1GHz processor with 1GB RAM and two wireless interfaces (an 802.11a/b/g/n Atheros 9K and a 802.11a/b/g Atheros 5K), running Ubuntu 12.04 LTS.
