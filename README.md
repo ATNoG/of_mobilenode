@@ -1,6 +1,5 @@
 # of_mobilenode
-This project mains to implement a flow mobility on the end nodes through OpenFlow tools. 
-To accomplish that OpenFlow agents Open vSwitch and POX were used.
+OpenFlow within the Mobile Node (OFMN) implements flow mobility on the end nodes through OpenFlow tools (namely, Open vSwitch (OvS) and Pox Controller). 
 
 ## Code reuse
 
@@ -12,14 +11,14 @@ If you plan to reuse any of the available code, please consider to cite the foll
 
 
 ## System framework
-The framework was design to work on 6 nodes (one for each emulated network node) of the AMazING tested, sited in the rooftop of Instituto de Telecomunicações de Aveiro.
+The framework was designed to work on 6 nodes (one for each emulated network node) of the AMazING tested, sited in the rooftop of Instituto de Telecomunicações de Aveiro.
 Each node is composed by a VIA Eden 1GHz processor with 1GB RAM and two wireless interfaces (an 802.11a/b/g/n Atheros 9K and a 802.11a/b/g Atheros 5K), running Ubuntu 12.04 LTS.
 
 ## Open vSwitch installation
 Since we do not change the OvS software you can check out how to install the sofware on developers [github](https://github.com/openvswitch/ovs).
 
 ## Requirements to run POX
-POX officially requires Python 2.7 (though much of it will work fine fine with Python 2.6), and should run under Linux, Mac OS, and Windows.
+POX officially requires Python 2.7, and should run under Linux, Mac OS, and Windows.
 
 ### Usage
 The script ext/handover_mn.py handles the Mobile Node handover request. Run it along with l3_learning
@@ -30,4 +29,4 @@ The script ext/handover_mn.py handles the Mobile Node handover request. Run it a
 
 
 ## Get more information
-For more information about how to configure and reproduce the experience check the [documentation](http://atnog.github.io/of_mobilenode/index.html).
+For more information check the project's [webpage](http://atnog.github.io/of_mobilenode/index.html), and/or the [documentation](https://github.com/ATNoG/of_mobilenode/wiki) for experiments configuration and reproducibility tips.
